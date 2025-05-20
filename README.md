@@ -5,9 +5,12 @@
 - Works around the container not working properly on WSL/Kubernetes/Azure container app
 - Adds a ROOT webapp so calling without the /validator path redirects to /validator
 
-You could modify etf-config.properties for the domain (works for the app running on port 8080).
- If it's left as is, the http://localhost:8090 will be replaced with the value from `SERVICE_DOMAIN_OVERRIDE` env variable.
- The env variable defaults to empty string which works for most cases (the domain is only passed to js/html for links so the missing domain works).
+You can use `SERVICE_DOMAIN_OVERRIDE` env variable to swith the domain that the service is running on.
+If not given it will default to an empty string that will be used to replace references to http://localhost:8090.
+The empty string works for most cases (the domain is only passed to js/html for links so the missing domain works as only the client/browser uses it).
+
+You can modify `etf-config.properties` for the domain (affects the app running on port 8080), but you don't need to (the env-variable will modify the domain).
+It's a file that is inside the war-file the container downloads so its easier to pass inside the container with separate file instead of modifying the one inside.
 
 ## Build with
 
@@ -15,8 +18,14 @@ You could modify etf-config.properties for the domain (works for the app running
 podman build --tag validator:0.1 .
 ```
 
+Replace `podman` with `docker` depending on which you use.
+
 ## Run with
 
+```sh
+podman run --rm -dt -p 8080:8080/tcp -p 8090:8090/tcp localhost/validator:0.1
+```
+Or if you want to define the domain you can use the env-variable to do so:
 ```sh
 podman run --rm -e SERVICE_DOMAIN_OVERRIDE="https://your.domain" -dt -p 8080:8080/tcp -p 8090:8090/tcp localhost/validator:0.1
 ```
