@@ -1,6 +1,6 @@
 # Custom build for INSPIRE validator
 
-- Overrides the built-in http://localhost:8090 references from `ghcr.io/inspire-mif/helpdesk-validator/inspire-validator:2024.3`
+- Overrides the built-in http://localhost:8090 references from `ghcr.io/inspire-mif/helpdesk-validator/inspire-validator:2025.1`
 - Removes debug port listening from Jetty
 - Works around the container not working properly on WSL/Kubernetes/Azure container app
 - Adds a ROOT webapp so calling without the /validator path redirects to /validator
@@ -33,7 +33,7 @@ The `--rm` flag removes the container when done. It's useful when developing/run
 
 ### Behind corporate proxy?
 
-Use these on the run command
+Add these on the run command
 ```sh
 -e HTTP_PROXY_HOST={your.proxy.host} -e HTTP_PROXY_PORT={your.proxy.port}  -e HTTPS_PROXY_HOST={your.proxy.host} -e HTTPS_PROXY_PORT={your.proxy.port}
 ```
