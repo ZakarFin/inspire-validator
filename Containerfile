@@ -1,4 +1,4 @@
-FROM ghcr.io/inspire-mif/helpdesk-validator/inspire-validator:2024.3
+FROM ghcr.io/inspire-mif/helpdesk-validator/inspire-validator:2025.1
 LABEL description="Customized version of INSPIRE validator. Fixes hardcoded domain references and kubernetes/WSL problems where apache2 and squid fail to start"
 # LABEL version="0.1"
 # LABEL maintainer="Someone <someone@somewhere.org>"
@@ -17,7 +17,7 @@ RUN echo 'rc_need="!dev !net"' >> /etc/rc.conf
 
 # Config domain where the service runs
 # - empty string means current domain
-# - JRC defaults to http://localhost:8090
+# - JRC code defaults to http://localhost:8090
 # Affects:
 #  - /etf/validator/js/config.js 
 #  - /etf/config/etf-config.properties
@@ -46,4 +46,7 @@ COPY etf-config.properties /etf/config/
 RUN sed -i "s|http://localhost:8090|$SERVICE_DOMAIN_OVERRIDE|g" /etf/config/etf-config.properties
 
 # Add a dummy index page to guide users to the /validator path
+# For 8080 port
 COPY index.html /var/lib/jetty/webapps/ROOT/
+# For 8090 port
+COPY index.html /etf/
