@@ -1,6 +1,6 @@
 # Custom build for INSPIRE validator
 
-- Overrides the built-in http://localhost:8090 references from `ghcr.io/inspire-mif/helpdesk-validator/inspire-validator:2025.1`
+- Overrides the built-in http://localhost:8090 references from `ghcr.io/inspire-mif/helpdesk-validator/inspire-validator:2025.1.1`
 - Removes debug port listening from Jetty
 - Works around the container not working properly on WSL/Kubernetes/Azure container app
 - Adds a ROOT webapp so calling without the /validator path redirects to /validator
@@ -33,7 +33,7 @@ The `--rm` flag removes the container when done. It's useful when developing/run
 
 ### Behind corporate proxy?
 
-Add these on the run command
+Add these on the run command (required to be _BEFORE_ the `localhost/validator:0.1`)
 ```sh
 -e HTTP_PROXY_HOST={your.proxy.host} -e HTTP_PROXY_PORT={your.proxy.port}  -e HTTPS_PROXY_HOST={your.proxy.host} -e HTTPS_PROXY_PORT={your.proxy.port}
 ```
@@ -41,10 +41,10 @@ Add these on the run command
 ## Take a look inside to see if something is wrong
 
 ```sh
-podman exec -it -l /bin/sh -c bash
+podman exec -it -l /bin/sh -c sh
 ```
 -l means last container (replace with id if needed)
--it means interactive to run commands on bash (where -dt means detached/run on background)
+-it means interactive to run commands on sh (where -dt means detached/run on background)
 
 ### Inside the container
 
@@ -56,3 +56,9 @@ You can get the id to replace `-l` with:
 ```sh
 podman ps -a
 ```
+
+### Known issues
+
+#### The UI on port 8090 doesn't work properly when SERVICE_DOMAIN_OVERRIDE is not defined.
+
+The validation requests are sent to wrong path when the domain is not configured.

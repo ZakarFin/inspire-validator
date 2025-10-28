@@ -1,4 +1,4 @@
-FROM ghcr.io/inspire-mif/helpdesk-validator/inspire-validator:2025.1
+FROM ghcr.io/inspire-mif/helpdesk-validator/inspire-validator:2025.1.1
 LABEL description="Customized version of INSPIRE validator. Fixes hardcoded domain references and kubernetes/WSL problems where apache2 and squid fail to start"
 # LABEL version="0.1"
 # LABEL maintainer="Someone <someone@somewhere.org>"
